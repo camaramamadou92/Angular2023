@@ -1,4 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { AssignmentsService } from 'src/app/shared/assignments.service';
 import { Assignment } from '../assignment.model';
 
 @Component({
@@ -7,12 +9,12 @@ import { Assignment } from '../assignment.model';
   styleUrls: ['./add-assignment.component.css']
 })
 export class AddAssignmentComponent implements OnInit {
-  @Output() nouvelAssignment = new EventEmitter<Assignment>();
 
 // Pour le formulaire
 nomDevoir = "";
 dateDeRendu!:Date;
-  constructor() { }
+  constructor(private assignmentsService:AssignmentsService,
+              private router:ActivatedRoute) { }
 
   ngOnInit(): void {
   }
@@ -29,7 +31,15 @@ dateDeRendu!:Date;
     // le tableau est chez le papa comment faire ?
     //this.assignments.push(nouvelAssignment);
 
-    this.nouvelAssignment.emit(nouvelAssignment);
+    //this.nouvelAssignment.emit(nouvelAssignment);
+    this.assignmentsService.addAssignment(nouvelAssignment)
+    .subscribe((message) => {
+      console.log(message);
+      // ON VA DEVOIR NAVIGUER AVEC LE ROUTER
+      // VERS LE COMPOSANT QUI AFFICHE LA LISTE
+      //this.router.navigate(['/home']);
+    });
+
   }
 
 }

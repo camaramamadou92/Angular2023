@@ -1,2 +1,9 @@
-<h1>Composant principal de gestion de devoirs</h1>
-<app-assignments></app-assignments>
+<nav>
+  <a routerLink="/home">
+    <h1>{{title}}</h1>
+  </a>
+</nav>
+<!--
+  Affiche le composant qui correspond à la route
+-->
+<router-outlet></router-outlet>

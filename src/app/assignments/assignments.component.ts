@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AssignmentsService } from '../shared/assignments.service';
 import { Assignment } from './assignment.model';
 
 @Component({
@@ -10,31 +11,16 @@ export class AssignmentsComponent implements OnInit {
   titre="Liste des devoirs";
   assignmentSelectionne!:Assignment;
 
-  formVisible=false;
 
+  assignments:Assignment[] = [];
 
-  assignments:Assignment[] = [
-    {
-      nom: 'Devoir Angular de Mr Buffa',
-      dateDeRendu: new Date('2022-11-30'),
-      rendu:false
-    },
-    {
-      nom: 'Devoir WebComponents de Mr Buffa',
-      dateDeRendu: new Date('2022-09-30'),
-      rendu:false
-    },
-    {
-      nom: 'Devoir BD de Mr Mopolo',
-      dateDeRendu: new Date('2022-09-30'),
-      rendu:true
-    }
-  ]
+  constructor(private assignmentsService:AssignmentsService) { }
 
-  constructor() { }
-
-  ngOnInit(): void {
+   ngOnInit(): void {
     console.log("appelé à l'initialisation du composant");
+    this.assignmentsService.getAssignments()
+    .subscribe(assignments => this.assignments = assignments);
+
   }
 
   assignmentClique(assignment:Assignment){
@@ -42,12 +28,5 @@ export class AssignmentsComponent implements OnInit {
     this.assignmentSelectionne = assignment;
   }
 
-  onAddAssignmentBtnClick() {
-    this.formVisible = true;
-  }
-
-  onNouvelAssignment(nouvelAssignment:Assignment) {
-    this.assignments.push(nouvelAssignment);
-    this.formVisible = false;
-  }
+  
 }
